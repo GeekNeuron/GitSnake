@@ -1,7 +1,7 @@
 // Game configuration
 const CONFIG = {
     GRID_SIZE: 20,
-    INITIAL_SPEED: 600, // Fixed initial speed (slower start)
+    INITIAL_SPEED: 1000, // Fixed initial speed (slower start)
     MIN_SPEED: 100,
     SPEED_INCREMENT: 2, // Speed decreases by 5 each food
     POINTS_PER_FOOD: 10,
@@ -189,9 +189,9 @@ function updateGame() {
     }
 
     // Self collision
-    if (isPositionOnSnake(head.x, head.y)) {
-        gameOver();
-        return;
+    if (isPositionOnSnake(head.x, head.y, true)) {
+    gameOver();
+    return;
     }
 
     snake.unshift(head);
@@ -212,9 +212,11 @@ function updateScore() {
     scoreElement.textContent = score;
     const bestScore = getBestScore();
     if (score > bestScore) {
-        setBestScore(score);
-        updateBestScoreDisplay();
-    }
+    setBestScore(score);
+    updateBestScoreDisplay();
+    setTimeout(() => {
+        alert('🎉 New Best Score! 🎉');
+    }, 500);
 }
 
 // Increase game speed
@@ -259,6 +261,7 @@ function restartGame() {
 
 // Main game loop
 function gameLoop() {
+    canChangeDirection = true;
     if (!gameRunning) return;
     updateGame();
     drawGame();
@@ -291,6 +294,8 @@ function togglePause() {
 
 // Keyboard controls
 document.addEventListener('keydown', (e) => {
+    if (!canChangeDirection) return;
+    canChangeDirection = false;
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyW', 'KeyA', 'KeyS', 'KeyD', 'Space'].includes(e.code)) {
         e.preventDefault();
     }
@@ -338,7 +343,7 @@ document.addEventListener('keydown', (e) => {
 // Touch controls for mobile
 let touchStartX = 0;
 let touchStartY = 0;
-const minSwipeDistance = 20;
+const minSwipeDistance = 30;
 
 canvas.addEventListener('touchstart', (e) => {
     e.preventDefault();
@@ -348,6 +353,8 @@ canvas.addEventListener('touchstart', (e) => {
 }, { passive: false });
 
 canvas.addEventListener('touchend', (e) => {
+    if (!canChangeDirection) return;
+    canChangeDirection = false;
     e.preventDefault();
     if (!gameRunning) {
         if (snake.length === 1) {
@@ -420,10 +427,14 @@ window.addEventListener('load', () => {
 
 // Handle tab visibility changes
 document.addEventListener('visibilitychange', () => {
-    if (document.hidden && gameRunning) {
-        paused = true;
-        pauseOverlay.style.display = 'flex';
-    } else if (!document.hidden && gameRunning && !paused) {
-        animationId = requestAnimationFrame(gameLoop);
+    if (document.hidden) {
+        if (gameRunning) {
+            paused = true;
+            pauseOverlay.style.display = 'flex';
+        }
+    } else {
+        if (gameRunning && !paused) {
+            animationId = requestAnimationFrame(gameLoop);
+        }
     }
 });
