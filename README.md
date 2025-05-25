@@ -105,9 +105,9 @@ GitSnake/
 
 ## 🏆 Scoring System
 
-- 🍎 **Food**: +10 points per item
-- 📈 **Speed**: Increases progressively
-- 💾 **Best Score**: Automatically saved locally
+- **Food**: +10 points per item
+- **Speed**: Increases progressively
+- **Best Score**: Automatically saved locally
 
 ## 🤝 Contributing
 
@@ -120,11 +120,11 @@ Contributions are welcome! Here's how you can help:
 5. **Open** a Pull Request
 
 ### Ideas for Contributions
-- 🎵 Sound effects
-- 🏆 Online leaderboard
-- 🎨 Themes and skins
-- 🎮 Power-ups
-- 📊 Statistics tracking
+- Sound effects
+- Online leaderboard
+- Themes and skins
+- Power-ups
+- Statistics tracking
 
 ## 📝 License
 
@@ -148,6 +148,46 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ![GitHub forks](https://img.shields.io/github/forks/GeekNeuron/GitSnake?style=social)
 ![GitHub issues](https://img.shields.io/github/issues/GeekNeuron/GitSnake)
 ![GitHub license](https://img.shields.io/github/license/GeekNeuron/GitSnake)
+
+---
+
+## 🎮 Controls
+
+**Desktop:**
+- Move: Arrow keys or WASD
+- Pause/Resume: Spacebar
+- Toggle Theme: `T`
+
+**Mobile:**
+- Swipe to move
+- Tap to start or restart
+
+---
+
+## 📲 Offline + Installation (PWA)
+
+GitSnake is a fully installable Progressive Web App.
+
+- **Desktop:** Click "Install" in browser address bar
+- **Mobile:** Tap "Add to Home Screen" via browser menu
+- Offline mode enabled after first load
+
+---
+
+## 🚀 Getting Started
+
+1. Fork or clone this repository
+2. Enable GitHub Pages (source: `main`, root `/`)
+3. Visit your published URL to play the game
+
+---
+
+## 🛠 Build (Optional)
+
+To bundle or optimize, you can use:
+- Vite
+- Parcel
+- ESBuild
 
 ---
 
