@@ -5,7 +5,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #011627, #003554);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
@@ -14,18 +14,31 @@ body {
     min-height: 100vh;
     user-select: none;
     overflow: hidden;
+    position: relative;
+    color: white;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2P4DwQACfsD/qG07xkAAAAASUVORK5CYII=');
+    opacity: 0.1;
+    z-index: 0;
 }
 
 .game-container {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
+    z-index: 1;
+    background: rgba(10, 20, 30, 0.6);
+    backdrop-filter: blur(10px);
     border-radius: 25px;
     padding: 40px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    animation: slideIn 1s ease-out;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
     position: relative;
+    animation: slideIn 1s ease-out;
 }
 
 @keyframes slideIn {
@@ -40,7 +53,7 @@ body {
 }
 
 h1 {
-    color: white;
+    color: #4ecdc4;
     margin-bottom: 25px;
     font-size: 3em;
     font-weight: bold;
@@ -57,25 +70,22 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 30px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
-.score, .best-score {
-    color: white;
-    font-size: 1.4em;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    padding: 10px 20px;
+.score, .best-score, .time {
     background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
     border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+    color: #f4f4f4;
 }
 
 canvas {
-    border: 4px solid white;
+    border: 4px solid #4ecdc4;
     border-radius: 15px;
     background: #0a0a0a;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     transition: all 0.3s ease;
     cursor: pointer;
 }
@@ -86,9 +96,9 @@ canvas:hover {
 }
 
 .controls {
-    margin-top: 25px;
-    color: white;
-    font-size: 1em;
+    margin-top: 20px;
+    color: #ccc;
+    font-size: 0.9em;
     opacity: 0.9;
     line-height: 1.8;
     background: rgba(255, 255, 255, 0.1);
@@ -166,23 +176,23 @@ button:active {
     box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
 }
 
-.footer {
+footer {
     position: fixed;
     bottom: 20px;
-    color: white;
-    font-size: 0.9em;
+    color: #aaa;
+    font-size: 0.8em;
     opacity: 0.7;
     text-align: center;
 }
 
-.footer a {
+footer a {
     color: #4ecdc4;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
-.footer a:hover {
+footer a:hover {
     color: #45b7b8;
     text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
 }
@@ -225,7 +235,7 @@ button:active {
         max-width: 350px;
     }
     
-    .footer {
+    footer {
         position: static;
         margin-top: 20px;
     }
@@ -246,18 +256,34 @@ button:active {
     }
 }
 
-/* Keyboard focus styles */
-button:focus {
-    outline: 3px solid rgba(255, 255, 255, 0.5);
-    outline-offset: 2px;
+/* Pause overlay styles */
+.pause-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-/* Loading animation */
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+.pause-content {
+    text-align: center;
+    color: white;
 }
 
-.loading {
-    animation: pulse 1.5s ease-in-out infinite;
+.pause-content button {
+    background: #4ecdc4;
+    margin-top: 20px;
+    padding: 12px 24px;
+    border-radius: 20px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.pause-content button:hover {
+    background: #45b7b8;
 }
