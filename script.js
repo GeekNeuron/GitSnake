@@ -1,9 +1,9 @@
 // Game configuration
 const CONFIG = {
     GRID_SIZE: 20,
-    INITIAL_SPEED: 300, // Fixed initial speed (slower start)
+    INITIAL_SPEED: 600, // Fixed initial speed (slower start)
     MIN_SPEED: 100,
-    SPEED_INCREMENT: 5, // Speed decreases by 5 each food
+    SPEED_INCREMENT: 2, // Speed decreases by 5 each food
     POINTS_PER_FOOD: 10,
     CORNER_RADIUS: 4
 };
