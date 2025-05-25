@@ -1,43 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitSnake - Classic Snake Game</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <meta name="description" content="A modern implementation of the classic Snake game built with vanilla JavaScript">
-    <meta name="keywords" content="snake game, javascript game, html5 canvas, retro game">
-    <meta name="author" content="GeekNeuron">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GitSnake</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
 </head>
-<body>
-    <div class="game-container">
-        <h1>🐍 GitSnake</h1>
-        <div class="score-board">
-            <div class="score">Score: <span id="score">0</span></div>
-            <div class="best-score" id="bestScore" style="display: none;">Best: <span id="bestScoreValue">0</span></div>
-            <div class="time">Time: <span id="time">0</span>s</div>
-        </div>
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-        <div class="controls">
-            Use arrow keys or WASD to move<br>
-            Press SPACE to start/pause
-        </div>
-        <div class="game-over" id="gameOver">
-            <div class="game-over-title">Game Over!</div>
-            <div class="final-score">Final Score: <span id="finalScore">0</span></div>
-            <button onclick="restartGame()">Play Again</button>
-        </div>
-        <div class="pause-overlay" id="pauseOverlay">
-            <div class="pause-content">
-                <h2>Paused</h2>
-                <button onclick="togglePause()">Resume</button>
-            </div>
-        </div>
+<body data-theme="dark">
+  <div class="game-container">
+    <h1>🐍 GitSnake</h1>
+    <div class="score-board">
+      <div class="score">Score: <span id="score">0</span></div>
+      <div class="best-score" id="bestScore" style="display: none;">Best: <span id="bestScoreValue">0</span></div>
+      <div class="time">Time: <span id="time">0</span>s</div>
+      <div class="level">Level: <span id="levelDisplay">1</span></div>
+      <div class="powerups" id="powerups" style="display: none; color: #ff0;">⚡ Power-Up Active</div>
     </div>
-    <footer>
-        Made with ❤️ by <a href="https://github.com/GeekNeuron " target="_blank">GeekNeuron</a>
-    </footer>
-    <script src="script.js"></script>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div class="controls">
+      Use arrow keys or WASD to move<br>
+      Press SPACE to start/pause | Press "T" to toggle theme
+    </div>
+    <div class="game-over" id="gameOver">
+      <div class="game-over-title">Game Over!</div>
+      <div class="final-score">Final Score: <span id="finalScore">0</span></div>
+      <button onclick="restartGame()">Play Again</button>
+    </div>
+    <div id="pauseOverlay" class="pause-overlay">
+      <div class="pause-content">
+        <h2>⏸ Paused</h2>
+        <button onclick="togglePause()">Resume</button>
+      </div>
+    </div>
+    <div id="splashScreen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #011627; color: white; z-index: 999; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+      <h1 style="font-size: 3em; margin-bottom: 20px;">🐍 GitSnake</h1>
+      <p>Tap or press SPACE to begin</p>
+    </div>
+  </div>
+
+  <footer>
+    Made with ❤️ by <a href="https://github.com/GeekNeuron" target="_blank">GeekNeuron</a>
+  </footer>
+
+  <audio id="eatSound" src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_5e4193c41c.mp3?filename=notification-1-126507.mp3" preload="auto"></audio>
+  <audio id="gameOverSound" src="https://cdn.pixabay.com/download/audio/2022/02/23/audio_2498dc4cd1.mp3?filename=fail-1-89170.mp3" preload="auto"></audio>
+
+  <script type="module" src="./script.js"></script>
 </body>
 </html>
