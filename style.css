@@ -1,3 +1,19 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  touch-action: none;
+}
+
+canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  touch-action: none;
+}
+
 :root[data-theme='light'] {
   --bg-color: #fefefe;
   --text-color: #111;
