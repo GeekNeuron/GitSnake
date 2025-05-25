@@ -136,3 +136,21 @@ window.addEventListener('load', () => {
   initTouchControls(canvas, state, updateDir, restartGame);
   restartGame();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const splash = document.getElementById('splashScreen');
+
+  function hideSplash() {
+    if (splash) splash.style.display = 'none';
+    window.removeEventListener('keydown', hideSplash);
+    window.removeEventListener('click', hideSplash);
+    window.removeEventListener('touchstart', hideSplash);
+    restartGame();
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') hideSplash();
+  });
+  window.addEventListener('click', hideSplash);
+  window.addEventListener('touchstart', hideSplash);
+});
