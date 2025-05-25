@@ -11,6 +11,18 @@ const CONFIG = {
 // Game elements
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+function updateCanvasSize() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    tileCount = canvas.width / CONFIG.GRID_SIZE / dpr;
+}
+
+window.addEventListener('resize', updateCanvasSize);
+updateCanvasSize();
+
 const scoreElement = document.getElementById('score');
 const bestScoreElement = document.getElementById('bestScore');
 const bestScoreValueElement = document.getElementById('bestScoreValue');
@@ -20,6 +32,8 @@ const pauseOverlay = document.getElementById('pauseOverlay');
 const timeElement = document.getElementById('time');
 
 // Game state
+let canChangeDirection = true;
+let pauseStartTime = 0;
 const tileCount = canvas.width / CONFIG.GRID_SIZE;
 let snake = [{x: 10, y: 10}];
 let food = {};
@@ -68,8 +82,11 @@ function generateFood() {
 }
 
 // Check if position is occupied by snake
-function isPositionOnSnake(x, y) {
-    return snake.some(segment => segment.x === x && segment.y === y);
+function isPositionOnSnake(x, y, ignoreHead = true) {
+    return snake.some((segment, index) => {
+        if (ignoreHead && index === 0) return false;
+        return segment.x === x && segment.y === y;
+    });
 }
 
 // Draw game elements
@@ -285,8 +302,10 @@ function updateTimer() {
 function togglePause() {
     paused = !paused;
     if (paused) {
+        pauseStartTime = Date.now();
         pauseOverlay.style.display = 'flex';
     } else {
+        startTime += Date.now() - pauseStartTime;
         pauseOverlay.style.display = 'none';
         animationId = requestAnimationFrame(gameLoop);
     }
