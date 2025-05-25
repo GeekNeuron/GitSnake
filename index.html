@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitSnake - Classic Snake Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+    <meta name="description" content="A modern implementation of the classic Snake game built with vanilla JavaScript">
+    <meta name="keywords" content="snake game, javascript game, html5 canvas, retro game">
+    <meta name="author" content="GeekNeuron">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🐍 GitSnake</h1>
+        <div class="score-board">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="best-score" id="bestScore" style="display: none;">Best: <span id="bestScoreValue">0</span></div>
+        </div>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div class="controls">
+            Use arrow keys or WASD to move<br>
+            Press SPACE to start/pause
+        </div>
+        <div class="game-over" id="gameOver">
+            <div class="game-over-title">Game Over!</div>
+            <div class="final-score">Final Score: <span id="finalScore">0</span></div>
+            <button onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>Made with ❤️ by <a href="https://github.com/GeekNeuron" target="_blank">GeekNeuron</a></p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
