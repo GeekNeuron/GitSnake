@@ -12,15 +12,24 @@ A modern, responsive implementation of the classic Snake game built with vanilla
 
 ## ✨ Features
 
-- 🎯 **Classic Gameplay** - The timeless Snake game experience
-- 📱 **Mobile Responsive** - Touch controls for mobile devices
-- 🏆 **Score System** - Track your current and best scores
-- ⚡ **Progressive Speed** - Game gets faster as you grow
-- 🎨 **Modern Design** - Beautiful glassmorphism UI with animations
-- 🎵 **Visual Effects** - Smooth animations and visual feedback
-- 💾 **Local Storage** - Best score persistence
-- ⌨️ **Multiple Controls** - Arrow keys, WASD, and touch support
-- 🌙 **Performance Optimized** - Smooth 60fps gameplay
+- **Classic Gameplay** - The timeless Snake game experience
+- **Mobile Responsive** - Touch controls for mobile devices
+- **Score System** - Track your current and best scores
+- **Progressive Speed** - Game gets faster as you grow
+- **Modern Design** - Beautiful glassmorphism UI with animations
+- **Visual Effects** - Smooth animations and visual feedback
+- **Local Storage** - Best score persistence
+- **Multiple Controls** - Arrow keys, WASD, and touch support
+- **Performance Optimized** - Smooth 60fps gameplay
+- Keyboard (WASD / Arrow keys) and touch controls
+- Ocean-dark theme with grain texture and glassmorphism
+- Endless Mode: board expands as score increases
+- Power-ups: Speed Boost (yellow) and Score Bonus (green)
+- Eat-effect particles (visual burst)
+- Eat / Game Over sound effects
+- Best score saved in browser via `localStorage`
+- Works offline (Service Worker)
+- Installable on desktop/mobile (PWA)
 
 ## 🎯 How to Play
 
