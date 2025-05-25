@@ -1,9 +1,9 @@
 // Game configuration
 const CONFIG = {
     GRID_SIZE: 20,
-    INITIAL_SPEED: 250,
+    INITIAL_SPEED: 300, // Fixed initial speed (slower start)
     MIN_SPEED: 100,
-    SPEED_INCREMENT: 5,
+    SPEED_INCREMENT: 5, // Speed decreases by 5 each food
     POINTS_PER_FOOD: 10,
     CORNER_RADIUS: 4
 };
@@ -23,8 +23,8 @@ const timeElement = document.getElementById('time');
 const tileCount = canvas.width / CONFIG.GRID_SIZE;
 let snake = [{x: 10, y: 10}];
 let food = {};
-let dx = 1;
-let dy = 0;
+let dx = 0;
+let dy = 1; // Start moving down
 let score = 0;
 let gameRunning = false;
 let gameSpeed = CONFIG.INITIAL_SPEED;
@@ -225,7 +225,7 @@ function increaseSpeed() {
 // Handle game over
 function gameOver() {
     gameRunning = false;
-    clearInterval(animationId);
+    clearTimeout(animationId);
     finalScoreElement.textContent = score;
     gameOverElement.style.display = 'block';
     const bestScore = getBestScore();
@@ -240,11 +240,12 @@ function gameOver() {
 // Restart game
 function restartGame() {
     snake = [{x: 10, y: 10}];
-    dx = 1;
-    dy = 0;
+    dx = 0;
+    dy = 1;
     score = 0;
     gameSpeed = CONFIG.INITIAL_SPEED;
     scoreElement.textContent = score;
+    bestScoreElement.style.display = 'none';
     gameOverElement.style.display = 'none';
     pauseOverlay.style.display = 'none';
     generateFood();
@@ -253,6 +254,7 @@ function restartGame() {
     startTime = Date.now();
     animationId = requestAnimationFrame(gameLoop);
     elapsedTime = 0;
+    updateBestScoreDisplay();
 }
 
 // Main game loop
@@ -404,8 +406,11 @@ function loadBestScore() {
 }
 
 function updateBestScoreDisplay() {
-    bestScoreElement.style.display = 'block';
-    bestScoreValueElement.textContent = score;
+    const bestScore = getBestScore();
+    if (bestScore > 0) {
+        bestScoreElement.style.display = 'block';
+        bestScoreValueElement.textContent = bestScore;
+    }
 }
 
 // Initialize game when page loads
