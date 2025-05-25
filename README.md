@@ -68,10 +68,10 @@ python -m http.server 8000
 ## 🎨 Screenshots
 
 ### Desktop View
-![Desktop Screenshot](https://via.placeholder.com/800x600/667eea/ffffff?text=GitSnake+Desktop+View)
+![Desktop Screenshot](https://none)
 
 ### Mobile View
-![Mobile Screenshot](https://via.placeholder.com/400x600/764ba2/ffffff?text=GitSnake+Mobile+View)
+![Mobile Screenshot](/screenshots/GitSnake.jpg)
 
 ## 🏗️ Project Structure
 
