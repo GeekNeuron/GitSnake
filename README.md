@@ -93,6 +93,22 @@ GitSnake/
 └── LICENSE             # MIT License
 ```
 
+```
+GitSnake/
+├── index.html              # Main entry HTML
+├── style.css               # Theme + layout styles
+├── script.js               # Main logic, imports all modules
+├── manifest.json           # PWA config
+├── sw.js                   # Service worker for offline
+├── favicon.ico             # Icon
+└── js/
+     ├── engine.js           # Snake movement, food generation
+     ├── controls.js         # Keyboard and touch input
+     ├── ui.js               # Score, timer, sounds
+     ├── powerups.js         # Power-up system
+     └── particles.js        # Food particles effect
+```
+
 ## 🎮 Game Controls
 
 | Action | Desktop | Mobile |
