@@ -1,57 +1,129 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>GitSnake</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/png" href="favicon.ico" />
-  <link rel="stylesheet" href="style.css" />
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitSnake - Classic Snake Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>'>
+    <meta name="description" content="A modern implementation of the classic Snake game built with vanilla JavaScript">
+    <meta name="keywords" content="snake game, javascript game, html5 canvas, retro game">
+    <meta name="author" content="GeekNeuron">
+    <style>
+        body {
+            background: linear-gradient(135deg, #011627, #003554);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            user-select: none;
+            overflow: hidden;
+            position: relative;
+            color: white;
+        }body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2P4DwQACfsD/qG07xkAAAAASUVORK5CYII=');
+        opacity: 0.1;
+        z-index: 0;
     }
-  </script>
+
+    .game-container {
+        z-index: 1;
+        background: rgba(10, 20, 30, 0.6);
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        padding: 40px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    }
+
+    h1 {
+        color: #4ecdc4;
+        margin-bottom: 25px;
+        font-size: 3em;
+        font-weight: bold;
+    }
+
+    .score-board {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 20px;
+    }
+
+    .score, .best-score {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px 20px;
+        border-radius: 15px;
+        font-weight: bold;
+        color: #f4f4f4;
+    }
+
+    canvas {
+        border: 4px solid #4ecdc4;
+        border-radius: 15px;
+        background: #0a0a0a;
+    }
+
+    .controls {
+        margin-top: 20px;
+        color: #ccc;
+    }
+
+    .game-over {
+        background: rgba(0, 0, 0, 0.95);
+        color: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        display: none;
+    }
+
+    button {
+        background: #1fb6ff;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 20px;
+        color: white;
+        font-size: 1em;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+
+    footer {
+        color: #aaa;
+        font-size: 0.8em;
+        margin-top: 30px;
+    }
+</style>
+
 </head>
-<body data-theme="dark">
-  <div class="game-container">
-    <h1>🐍 GitSnake</h1>
-    <div class="score-board">
-      <div class="score">Score: <span id="score">0</span></div>
-      <div class="best-score" id="bestScore" style="display: none;">Best: <span id="bestScoreValue">0</span></div>
-      <div class="time">Time: <span id="time">0</span>s</div>
-      <div class="level">Level: <span id="levelDisplay">1</span></div>
-      <div class="powerups" id="powerups" style="display: none; color: #ff0;">⚡ Power-Up Active</div>
+<body>
+    <div class="game-container">
+        <h1>🐍 GitSnake</h1>
+        <div class="score-board">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="best-score" id="bestScore" style="display: none;">Best: <span id="bestScoreValue">0</span></div>
+        </div>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div class="controls">
+            Use arrow keys or WASD to move<br>
+            Press SPACE to start/pause
+        </div>
+        <div class="game-over" id="gameOver">
+            <div class="game-over-title">Game Over!</div>
+            <div class="final-score">Final Score: <span id="finalScore">0</span></div>
+            <button onclick="restartGame()">Play Again</button>
+        </div>
     </div>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <div class="controls">
-      Use arrow keys or WASD to move<br>
-      Press SPACE to start/pause | Press "T" to toggle theme
-    </div>
-    <div class="game-over" id="gameOver">
-      <div class="game-over-title">Game Over!</div>
-      <div class="final-score">Final Score: <span id="finalScore">0</span></div>
-      <button onclick="restartGame()">Play Again</button>
-    </div>
-    <div id="pauseOverlay" class="pause-overlay">
-      <div class="pause-content">
-        <h2>⏸ Paused</h2>
-        <button onclick="togglePause()">Resume</button>
-      </div>
-    </div>
-    <div id="splashScreen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #011627; color: white; z-index: 999; display: flex; align-items: center; justify-content: center; flex-direction: column;">
-      <h1 style="font-size: 3em; margin-bottom: 20px;">🐍 GitSnake</h1>
-      <p>Tap or press SPACE to begin</p>
-    </div>
-  </div>
-
-  <footer>
-    Made with ❤️ by <a href="https://github.com/GeekNeuron" target="_blank">GeekNeuron</a>
-  </footer>
-
-  <audio id="eatSound" src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_5e4193c41c.mp3?filename=notification-1-126507.mp3" preload="auto"></audio>
-  <audio id="gameOverSound" src="https://cdn.pixabay.com/download/audio/2022/02/23/audio_2498dc4cd1.mp3?filename=fail-1-89170.mp3" preload="auto"></audio>
-
-  <script type="module" src="./script.js"></script>
+    <footer>
+        Made with ❤️ by <a href="https://github.com/GeekNeuron" target="_blank">GeekNeuron</a>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
