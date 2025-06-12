@@ -1,6 +1,8 @@
-/* General Body Styles */
+/* --- General and Font --- */
 body {
-    font-family: 'Courier New', Courier, monospace;
+    background-color: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,64 +13,59 @@ body {
 }
 
 header h1 {
-    font-size: 3rem;
-    cursor: pointer; /* Makes it obvious it's clickable */
-    user-select: none; /* Prevents text selection on click */
-}
-
-main {
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-canvas {
-    display: block;
-    border-radius: 8px;
+    font-size: 2.5rem;
+    cursor: pointer;
+    user-select: none;
 }
 
 footer {
-    margin-top: 20px;
-    font-size: 1rem;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #888;
 }
 
 footer a {
+    color: white;
     text-decoration: none;
-    font-weight: bold;
     transition: color 0.3s;
 }
 
+footer a:hover {
+    color: #ddd;
+}
+
+/* --- Theme Management --- */
+
+/* This is the default (dark) theme, inspired by Project #1 */
+body {
+    background-color: black;
+    color: white;
+}
+
+body footer a {
+    color: white;
+}
+
 /* Light Theme */
-.light-theme {
+body.light-theme {
     background-color: #f0f0f0;
-    color: #333;
+    color: #111;
 }
 
-.light-theme main {
-    border: 2px solid #333;
+body.light-theme footer {
+    color: #555;
 }
 
-.light-theme footer a {
+body.light-theme footer a {
     color: #007BFF;
 }
 
-.light-theme footer a:hover {
+body.light-theme footer a:hover {
     color: #0056b3;
 }
 
-/* Dark Theme */
-.dark-theme {
-    background-color: #1a1a1a;
-    color: #f0f0f0;
-}
-
-.dark-theme main {
-    border: 2px solid #f0f0f0;
-}
-
-.dark-theme footer a {
-    color: #1E90FF;
-}
-
-.dark-theme footer a:hover {
-    color: #63a9ff;
+/* --- Canvas Styling (Consistent across themes) --- */
+canvas {
+    display: block;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); /* A subtle glow */
 }
