@@ -1,163 +1,158 @@
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const gameTitle = document.getElementById('game-title');
     const body = document.body;
 
-    // --- Game State & Configuration (from Project #1) ---
-    let speed = 7; // Frames per second
-    let tileCount = 20;
-    let tileSize = canvas.width / tileCount;
-    let headX = 10;
-    let headY = 10;
-    const snakeParts = [];
-    let tailLength = 2;
+    // --- Game Configuration ---
+    const gridSize = 20; // Each square is a "contribution" block
+    const tileCount = canvas.width / gridSize;
 
-    let appleX = 5;
-    let appleY = 5;
-
-    let xVelocity = 0;
-    let yVelocity = 0;
-
+    // --- Game State ---
+    let snake = [{ x: 10, y: 10 }];
+    let food = {};
+    let dx = 0; // Velocity x
+    let dy = 0; // Velocity y
     let score = 0;
+    let changingDirection = false;
+    let gameActive = true;
 
-    // --- Theme Switcher ---
+    // --- Theme Management ---
+    const themes = {
+        dark: {
+            snake: '#26a641',
+            food: '#39d353',
+            text: '#c9d1d9'
+        },
+        light: {
+            snake: '#26a641',
+            food: '#006d32',
+            text: '#24292f'
+        }
+    };
+    let currentTheme = 'dark';
+
     gameTitle.addEventListener('click', () => {
+        body.classList.toggle('dark-theme');
         body.classList.toggle('light-theme');
+        currentTheme = body.classList.contains('dark-theme') ? 'dark' : 'light';
     });
 
-    // --- Game Loop ---
-    function drawGame() {
-        changeSnakePosition();
-        let result = isGameOver();
-        if (result) {
-            document.body.removeEventListener('keydown', keyDown); // Stop listening for keys
+    // --- Main Game Loop ---
+    function gameLoop() {
+        if (!gameActive) {
+            displayGameOver();
             return;
         }
 
-        clearScreen();
-        checkAppleCollision();
-        drawApple();
-        drawSnake();
-        drawScore();
-
-        setTimeout(drawGame, 1000 / speed);
+        changingDirection = false;
+        setTimeout(() => {
+            clearCanvas();
+            drawFood();
+            moveSnake();
+            drawSnake();
+            drawScore();
+            gameLoop();
+        }, 120); // Game speed
     }
 
-    // --- Core Game Functions ---
-    function isGameOver() {
-        let gameOver = false;
-
-        if (yVelocity === 0 && xVelocity === 0) {
-            return false; // Game hasn't started
-        }
-
-        // Wall collision
-        if (headX < 0 || headX >= tileCount || headY < 0 || headY >= tileCount) {
-            gameOver = true;
-        }
-
-        // Self collision
-        for (let i = 0; i < snakeParts.length; i++) {
-            let part = snakeParts[i];
-            if (part.x === headX && part.y === headY) {
-                gameOver = true;
-                break;
-            }
-        }
-
-        if (gameOver) {
-            ctx.fillStyle = "white";
-            ctx.font = "50px Verdana";
-            ctx.fillText("Game Over!", canvas.width / 4, canvas.height / 2);
-        }
-
-        return gameOver;
-    }
-
-    function clearScreen() {
-        const isLightTheme = body.classList.contains('light-theme');
-        // The background of the canvas is different based on theme
-        ctx.fillStyle = isLightTheme ? '#f0f0f0' : 'black';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // --- Drawing Functions ---
+    function clearCanvas() {
+        // The background color is handled by CSS, we just need to clear the rect
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     function drawSnake() {
-        const isLightTheme = body.classList.contains('light-theme');
-        ctx.fillStyle = isLightTheme ? '#28a745' : 'lime';
-
-        for (let i = 0; i < snakeParts.length; i++) {
-            let part = snakeParts[i];
-            ctx.fillRect(part.x * tileCount, part.y * tileCount, tileSize, tileSize);
-        }
-
-        snakeParts.push({ x: headX, y: headY }); // Put an item at the end of the list next to the head
-        if (snakeParts.length > tailLength) {
-            snakeParts.shift(); // Remove the furthet item from the snake parts if we have more than our tail size.
-        }
-
-        // Snake head color is different
-        ctx.fillStyle = isLightTheme ? '#218838' : 'orange';
-        ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize);
+        ctx.fillStyle = themes[currentTheme].snake;
+        snake.forEach(part => {
+            // Rounded rectangles to mimic GitHub contribution blocks
+            ctx.fillRect(part.x * gridSize + 1, part.y * gridSize + 1, gridSize - 2, gridSize - 2);
+        });
     }
 
-    function changeSnakePosition() {
-        headX = headX + xVelocity;
-        headY = headY + yVelocity;
+    function drawFood() {
+        ctx.fillStyle = themes[currentTheme].food;
+        ctx.fillRect(food.x * gridSize + 1, food.y * gridSize + 1, gridSize - 2, gridSize - 2);
     }
-
-    function drawApple() {
-        const isLightTheme = body.classList.contains('light-theme');
-        ctx.fillStyle = isLightTheme ? '#dc3545' : "red";
-        ctx.fillRect(appleX * tileCount, appleY * tileCount, tileSize, tileSize);
-    }
-
-    function checkAppleCollision() {
-        if (appleX === headX && appleY == headY) {
-            appleX = Math.floor(Math.random() * tileCount);
-            appleY = Math.floor(Math.random() * tileCount);
-            tailLength++;
-            score++;
-        }
-    }
-
+    
     function drawScore() {
-        const isLightTheme = body.classList.contains('light-theme');
-        ctx.fillStyle = isLightTheme ? '#333' : "white";
-        ctx.font = "12px Verdana";
-        ctx.fillText("Score " + score, canvas.width - 60, 20);
+        ctx.fillStyle = themes[currentTheme].text;
+        ctx.font = '16px -apple-system, BlinkMacSystemFont, "Segoe UI"';
+        ctx.textAlign = 'left';
+        ctx.fillText(`Score: ${score}`, 10, 20);
+    }
+
+    // --- Game Logic Functions ---
+    function moveSnake() {
+        const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+        snake.unshift(head);
+
+        if (head.x === food.x && head.y === food.y) {
+            score++;
+            generateFood();
+        } else {
+            snake.pop();
+        }
+
+        if (hasCollision()) {
+            gameActive = false;
+        }
+    }
+
+    function hasCollision() {
+        const head = snake[0];
+        // Wall collision
+        if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+            return true;
+        }
+        // Self collision
+        for (let i = 1; i < snake.length; i++) {
+            if (head.x === snake[i].x && head.y === snake[i].y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function generateFood() {
+        food.x = Math.floor(Math.random() * tileCount);
+        food.y = Math.floor(Math.random() * tileCount);
+        // Avoid spawning on the snake
+        if (snake.some(part => part.x === food.x && part.y === food.y)) {
+            generateFood();
+        }
+    }
+    
+    function displayGameOver() {
+        ctx.fillStyle = themes[currentTheme].text;
+        ctx.font = '40px -apple-system, BlinkMacSystemFont, "Segoe UI"';
+        ctx.textAlign = 'center';
+        ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
     }
 
     // --- Input Handling ---
-    function keyDown(event) {
-        // Up
-        if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
-            if (yVelocity == 1) return; // Prevent moving into self
-            yVelocity = -1;
-            xVelocity = 0;
+    function handleKeyDown(event) {
+        if (changingDirection) return;
+
+        const key = event.key;
+        const goingUp = dy === -1;
+        const goingDown = dy === 1;
+        const goingRight = dx === 1;
+        const goingLeft = dx === -1;
+
+        // Start game on first keypress
+        if (dx === 0 && dy === 0) {
+            changingDirection = true;
         }
-        // Down
-        if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
-            if (yVelocity == -1) return;
-            yVelocity = 1;
-            xVelocity = 0;
-        }
-        // Left
-        if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
-            if (xVelocity == 1) return;
-            yVelocity = 0;
-            xVelocity = -1;
-        }
-        // Right
-        if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
-            if (xVelocity == -1) return;
-            yVelocity = 0;
-            xVelocity = 1;
-        }
+
+        if ((key === "ArrowUp" || key.toLowerCase() === "w") && !goingDown) { dx = 0; dy = -1; }
+        else if ((key === "ArrowDown" || key.toLowerCase() === "s") && !goingUp) { dx = 0; dy = 1; }
+        else if ((key === "ArrowLeft" || key.toLowerCase() === "a") && !goingRight) { dx = -1; dy = 0; }
+        else if ((key === "ArrowRight" || key.toLowerCase() === "d") && !goingLeft) { dx = 1; dy = 0; }
     }
 
-    document.body.addEventListener('keydown', keyDown);
-
-    // --- Start the game ---
-    drawGame();
-};
+    // --- Initialize ---
+    document.addEventListener('keydown', handleKeyDown);
+    generateFood();
+    gameLoop();
+});
