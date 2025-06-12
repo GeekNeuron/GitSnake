@@ -1,8 +1,24 @@
 /* --- General and Font --- */
+:root {
+    /* snk/GitHub Dark Theme Colors */
+    --dark-bg: #0d1117;
+    --dark-canvas-bg: #161b22;
+    --dark-text: #c9d1d9;
+    --dark-link: #58a6ff;
+    --dark-border: #30363d;
+    --snake-color: #26a641; /* GitHub contribution green */
+    --food-color: #39d353;   /* A lighter green for food */
+
+    /* snk/GitHub Light Theme Colors */
+    --light-bg: #ffffff;
+    --light-canvas-bg: #f6f8fa;
+    --light-text: #24292f;
+    --light-link: #0969da;
+    --light-border: #d0d7de;
+}
+
 body {
-    background-color: black;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,58 +30,52 @@ body {
 
 header h1 {
     font-size: 2.5rem;
+    font-weight: 600;
     cursor: pointer;
     user-select: none;
 }
 
 footer {
-    margin-top: 15px;
+    margin-top: 20px;
     font-size: 0.9rem;
-    color: #888;
 }
 
 footer a {
-    color: white;
     text-decoration: none;
+    font-weight: 500;
     transition: color 0.3s;
 }
 
-footer a:hover {
-    color: #ddd;
-}
-
-/* --- Theme Management --- */
-
-/* This is the default (dark) theme, inspired by Project #1 */
-body {
-    background-color: black;
-    color: white;
-}
-
-body footer a {
-    color: white;
-}
-
-/* Light Theme */
-body.light-theme {
-    background-color: #f0f0f0;
-    color: #111;
-}
-
-body.light-theme footer {
-    color: #555;
-}
-
-body.light-theme footer a {
-    color: #007BFF;
-}
-
-body.light-theme footer a:hover {
-    color: #0056b3;
-}
-
-/* --- Canvas Styling (Consistent across themes) --- */
 canvas {
     display: block;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); /* A subtle glow */
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 1px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* --- Dark Theme (Default) --- */
+.dark-theme {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+.dark-theme canvas {
+    background-color: var(--dark-canvas-bg);
+    border-color: var(--dark-border);
+}
+.dark-theme footer a {
+    color: var(--dark-link);
+}
+
+/* --- Light Theme --- */
+.light-theme {
+    background-color: var(--light-bg);
+    color: var(--light-text);
+}
+.light-theme canvas {
+    background-color: var(--light-canvas-bg);
+    border-color: var(--light-border);
+}
+.light-theme footer a {
+    color: var(--light-link);
 }
