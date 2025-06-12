@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake by GeekNeuron</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake Game</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="dark-theme">
+<body>
 
-    <header>
-        <h1 id="game-title">Snake</h1>
-    </header>
+  <header id="theme-switcher">
+    <h1>Snake Game</h1>
+    <p>Click here to toggle light/dark mode</p>
+  </header>
 
-    <main>
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-    </main>
+  <div class="container">
+    <canvas id="game-canvas"></canvas>
+  </div>
 
-    <footer>
-        <p>Created by <a href="https://github.com/GeekNeuron" target="_blank">GeekNeuron</a></p>
-    </footer>
-
-    <script src="script.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>
