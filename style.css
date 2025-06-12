@@ -1,81 +1,75 @@
-/* --- General and Font --- */
+/* General Styles */
 :root {
-    /* snk/GitHub Dark Theme Colors */
-    --dark-bg: #0d1117;
-    --dark-canvas-bg: #161b22;
-    --dark-text: #c9d1d9;
-    --dark-link: #58a6ff;
-    --dark-border: #30363d;
-    --snake-color: #26a641; /* GitHub contribution green */
-    --food-color: #39d353;   /* A lighter green for food */
+  --background-light: #f0f0f0;
+  --text-light: #333;
+  --canvas-border-light: #ccc;
+  --header-bg-light: #e0e0e0;
 
-    /* snk/GitHub Light Theme Colors */
-    --light-bg: #ffffff;
-    --light-canvas-bg: #f6f8fa;
-    --light-text: #24292f;
-    --light-link: #0969da;
-    --light-border: #d0d7de;
+  --background-dark: #1a1a1a;
+  --text-dark: #f0f0f0;
+  --canvas-border-dark: #444;
+  --header-bg-dark: #2a2a2a;
+  
+  --snake-color: #4caf50;
+  --food-color: #f44336;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    transition: background-color 0.3s, color 0.3s;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-header h1 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    cursor: pointer;
-    user-select: none;
-}
-
-footer {
-    margin-top: 20px;
-    font-size: 0.9rem;
-}
-
-footer a {
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
+.container {
+  text-align: center;
 }
 
 canvas {
-    display: block;
-    border-radius: 6px;
-    border-style: solid;
-    border-width: 1px;
-    transition: background-color 0.3s, border-color 0.3s;
+  background-color: #fff; /* Default canvas background */
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* --- Dark Theme (Default) --- */
-.dark-theme {
-    background-color: var(--dark-bg);
-    color: var(--dark-text);
-}
-.dark-theme canvas {
-    background-color: var(--dark-canvas-bg);
-    border-color: var(--dark-border);
-}
-.dark-theme footer a {
-    color: var(--dark-link);
+header {
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s;
 }
 
-/* --- Light Theme --- */
-.light-theme {
-    background-color: var(--light-bg);
-    color: var(--light-text);
+/* Light Mode (Default) */
+body {
+  background-color: var(--background-light);
+  color: var(--text-light);
 }
-.light-theme canvas {
-    background-color: var(--light-canvas-bg);
-    border-color: var(--light-border);
+
+header {
+  background-color: var(--header-bg-light);
 }
-.light-theme footer a {
-    color: var(--light-link);
+
+canvas {
+  border: 5px solid var(--canvas-border-light);
+}
+
+/* Dark Mode */
+body.dark-mode {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode header {
+  background-color: var(--header-bg-dark);
+}
+
+body.dark-mode canvas {
+  border: 5px solid var(--canvas-border-dark);
+  background-color: #333; /* Dark canvas background */
 }
